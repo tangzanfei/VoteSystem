@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1" charset="utf-8">
+    <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script>
+        $(function () {
+            $(document).ready(function () {
+                $.ajax({
+                    type: 'post',
+                    url: 'TopListHandler.ashx',
+                    contentType: "application/x-www-form-urlencoded;charset=utf-8;",
+                    data: { action: "GetScoreList", param1: "" },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data != null) {
+                            var len = data.length;
+                            for (var i = 0; i < len; i++) {
+                                var listview = document.createElement("TopListView");
+                                $("#TopListView").append(('<li><span>' + data[i].Index + '</span><span>' + data[i].Name + '</span > <span class="ui-li-count">' + data[i].Score+'</span ></li > '));
+                            }
+                        }
+
+                    }, error: function (error) {
+                        alert("error=" + error);
+                    }
+                })
+            })
+        })
+    </script>
+
+</head>
+<body>
+
+    <div data-role="page"  id="pageTopOne">
+        <div data-role="header"><h1>排行榜</h1></div>
+        <div data-role="main" class="ui-content">
+            <h2>得分排名</h2>
+            <ul data-role="listview" data-inset="true" id="TopListView">
+            </ul>
+        </div>
+        <div data-role="footer"></div>
+    </div>
+</body>
+</html>

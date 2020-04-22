@@ -1,0 +1,160 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1" charset="utf-8">
+    <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script>
+        $(function () {
+            $(document).ready(function () {
+                $.ajax({
+                    type: 'Get',
+                    url: 'GetNameHandler.ashx',
+                    data: '',
+                    success: function (data) {
+                        if (data != null) {
+
+                            document.getElementById("labName").innerHTML = data;
+                            document.getElementById("labNamePup").innerHTML = data;
+                        }
+                    }, error: function () {
+
+                    }
+                })
+            })
+        })
+        //function getName() {
+        //    var xmlhttp;
+
+        //    document.getElementById("labName").innerHTML = "";
+        //    if (window.XMLHttpRequest) {
+        //        // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+        //        xmlhttp = new XMLHttpRequest();
+        //    }
+        //    else {
+        //        // IE6, IE5 浏览器执行代码
+        //        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        //    }
+        //    xmlhttp.onreadystatechange = function () {
+        //        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        //            document.getElementById("labName").innerHTML = xmlhttp.responseText;
+        //        }
+        //    }
+        //    xmlhttp.open("GET", "GetNameHandler.ashx");
+        //    xmlhttp.send();
+        //}
+    </script>
+    <script>
+        function ValueChange() {
+            document.getElementById("labVotePup").innerText = document.getElementById("points").value;
+        }
+    </script>
+    <script>
+        $(function () {
+            $("#btnVote").click(function () {
+                var s = $("#points").val();
+                var name = document.getElementById("labNamePup").innerHTML;
+                $.ajax({
+                    type: 'POST',
+                    url: 'VotePageHandler.ashx',
+                    data: { Vote: name, Score: s },
+                    success: function (data) {
+                        if (data != "ok") {
+                            alert(data);
+                        }
+                        else {
+                            alert("投票成功");
+                        }
+                        window.location = "Thanks.html";
+
+
+                    }, error: function () {
+
+                    }
+                })
+            })
+        })
+
+    </script>
+    <script>
+        $(function () {
+            $("#btnGiveUp").click(function () {
+                var s = 0;
+                var name = document.getElementById("labNamePup").innerHTML;
+                $.ajax({
+                    type: 'POST',
+                    url: 'VotePageHandler.ashx',
+                    data: { Vote: name, Score: s },
+                    success: function (data) {
+                        if (data != "ok") {
+                            alert(data);
+                        }
+                        else {
+                            alert("投票成功");
+                        }
+                        window.location = "Thanks.html";
+
+
+                    }, error: function () {
+
+                    }
+                })
+            })
+        })
+
+    </script>
+
+</head>
+<body>
+    <div data-role="page">
+        <div data-role="header">
+            <h1>竞选人<label id="labName"></label></h1>
+
+        </div>
+
+        <div data-role="main" class="ui-content">
+            <p>请给出公正公平的评分,范围70-95</p>
+            <form method="post" action="demoform.php">
+                <label for="points">评分:</label>
+                <input type="range" name="points" id="points" value="70" min="70" max="95" onchange="ValueChange();">
+            </form>
+        </div>
+
+        <div data-role="footer" data-role="controlgroup" data-type="horizontal" >
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <a href="#pageVote" class="ui-btn ui-corner-all ui-shadow ui-icon-edit ui-btn-icon-left ">提交</a>
+                </div>
+                <div class="ui-block-b">
+                    <a href="#pageGiveUp" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-left">弃权</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div data-role="page" data-dialog="true" id="pageVote">
+        <div data-role="header">
+            <h1>确认投票？</h1>
+        </div>
+        <div data-role="main" class="ui-content" style="font-size:200%">
+            <label id="labNamePup" style="font-size:200%"></label>
+            <p>评分:<label id="labVotePup"  style="font-size:200%">70</label></p>
+        </div>
+        <div data-role="footer">
+            <a href="#" id="btnVote" class="ui-btn ui-corner-all ui-shadow ui-icon-edit ui-btn-icon-left ">提交</a>
+        </div>
+    </div>
+    <div data-role="page" data-dialog="true" id="pageGiveUp">
+        <div data-role="header">
+            <h1>确认弃权？</h1>
+        </div>
+        <div data-role="main" class="ui-content">
+            <p>弃权票将不计入总票数</p>
+        </div>
+        <div data-role="footer">
+            <a href="#" id="btnGiveUp" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-left ">确认弃权</a>
+        </div>
+    </div>
+</body>
+</html>

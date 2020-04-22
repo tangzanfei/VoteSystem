@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1" charset="utf-8">
+    <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script>
+        function RefreshCandidates() {
+            $.ajax({
+                type: 'post',
+                url: 'AdminHandler.ashx',
+                contentType: "application/x-www-form-urlencoded;charset=utf-8;",
+                data: { action: "GetCandidateList", param1: "" },
+                dataType: "json",
+                success: function (data) {
+                    if (data != null) {
+                        var len = data.length;
+                        for (var i = 0; i < len; i++) {
+                            var option = document.createElement("CandidateName");
+                            $("#CandidateName").append(('<option value=' + data[i].Name + '>' + data[i].Name + '</option>'));
+                        }
+
+                        var option = document.createElement("CandidateName");
+                        if (len) {
+                            option.val = data[0].Name;
+                            $("#CandidateName").selectmenu('refresh', true);//加上这句代码后就能显示默认的选中项了
+                        }
+                    }
+                }, error: function (error) {
+                    alert("error=" + error);
+
+                }
+
+            })
+        }
+    </script>
+    <script>
+        $(function () {
+            $(document).ready(function () {
+                window.setInterval("Refresh()", 5000);
+
+                $.ajax({
+                    type: 'post',
+                    url: 'AdminHandler.ashx',
+                    contentType: "application/x-www-form-urlencoded;charset=utf-8;",
+                    data: { action: "InitData", param1: "" },
+                    dataType: "text",
+                    success: function (data) {
+                        if (data != null && data != "") {
+                            alert(data);
+                            window.setInterval("Refresh()", 5000);
+                            RefreshCandidates();
+                        }
+
+                        //document.getElementById("spanName").innerHTML = json[""];
+                    }, error: function (error) {
+                        alert("error=" + error);
+                    }
+                })
+            })
+        })
+    </script>
+    <script>
+        function Refresh() {
+            $.ajax({
+                type: 'post',
+                url: 'AdminHandler.ashx',
+                contentType: "application/x-www-form-urlencoded;charset=utf-8;",
+                data: { action: "GetCurrentCandidate", param1: "" },
+                dataType: "json",
+                success: function (data) {
+                    if (data != null) {
+                        document.getElementById("spanName").innerHTML = data["Name"];
+                        document.getElementById("spanNum").innerHTML = data["VoteNum"];
+                        document.getElementById("spanScore").innerHTML = data["Score"];
+                        document.getElementById("spanVipNum").innerHTML = data["VipNum"];
+                        document.getElementById("spanVipScore").innerHTML = data["VipScore"];
+                        document.getElementById("spanNomScore").innerHTML = data["NomScore"];
+                        document.getElementById("spanNomNum").innerHTML = data["NomNum"];
+                        document.getElementById("spanGivUpNum").innerHTML = data["GiveUpNum"];
+
+                        if (document.getElementById("CandidateName").options.length == 0) {
+                            RefreshCandidates();
+                        }
+                    }
+                }, error: function (error) {
+
+                }
+            })
+        }
+
+    </script>
+    <script>
+        function SetNextCandidate() {
+            $.ajax({
+                type: 'post',
+                url: 'AdminHandler.ashx',
+                contentType: "application/x-www-form-urlencoded;charset=utf-8;",
+                data: { action: "SetNextCandidate", param1: $("#CandidateName").val() },
+                dataType: "text",
+                success: function (data) {
+                    if (data != null) {
+                        alert(data);
+                    }
+                    document.getElementById("pageVote").hidden();
+
+                }, error: function (error) {
+                    alert("error=" + error);
+                }
+            })
+        }
+
+    </script>
+    <script>
+        function ReStart() {
+            $.ajax({
+                type: 'post',
+                url: 'AdminHandler.ashx',
+                contentType: "application/x-www-form-urlencoded;charset=utf-8;",
+                data: { action: "ReStart", param1: "" },
+                dataType: "text",
+                success: function (data) {
+                    if (data != null) {
+                        alert(data);
+                        document.getElementById("spanName").innerHTML = "无";
+                        document.getElementById("spanNum").innerHTML = "0";
+                        document.getElementById("spanScore").innerHTML = "0";
+                        document.getElementById("spanVipNum").innerHTML = "0";
+                        document.getElementById("spanVipScore").innerHTML = "0";
+                        document.getElementById("spanNomScore").innerHTML = "0";
+                        document.getElementById("spanNomNum").innerHTML = "0";
+                        document.getElementById("spanGivUpNum").innerHTML = "0";
+
+                        RefreshCandidates();
+                    }
+
+                }, error: function (error) {
+                    alert("error=" + error);
+                }
+            })
+        }
+
+    </script>
+    <script>
+        function TopList() {
+            window.location = "TopList.html";
+        }
+    </script>
+    <script>
+        function ExportData() {
+            $.ajax({
+                type: 'post',
+                url: 'AdminHandler.ashx',
+                contentType: "application/x-www-form-urlencoded;charset=utf-8;",
+                data: { action: "ExportData", param1: "" },
+                dataType: "text",
+                success: function (data) {
+                    if (data != null) {
+                        document.getElementById("info").textContent = data;
+                        //$('#pageExport').show();
+                        //alert(data);
+                    }
+
+                }, error: function (error) {
+                    alert("error=" + error);
+                }
+            })
+        }
+
+    </script>
+</head>
+<body>
+    <div data-role="page">
+        <div data-role="header">
+            <a href="#TopList.html" id="btnTopList" class="ui-btn ui-corner-all ui-shadow ui-icon-home ui-btn-icon-left" onclick="TopList()">排行榜</a>
+            <a href="#pageExport" id="btnTopList" class="ui-btn ui-corner-all ui-shadow ui-icon-action ui-btn-icon-left" onclick="ExportData()">导出数据</a>
+            <h1>管理员后台</h1>
+
+        </div>
+
+        <div data-role="main" class="ui-content">
+            <div>本轮投票详情：</div>
+            <div class="ui-grid-a">
+                <div class="ui-block-a" style="border:1px solid black; font-size:450%"><span>当前候选人</span></div>
+                <div class="ui-block-b" style="border:1px solid black; font-size:450%"><span id="spanName">无</span></div>
+                <div class="ui-block-a" style="border:1px solid black; font-size:450%"><span>当前总分数</span></div>
+                <div class="ui-block-b" style="border:1px solid black; font-size:450%"><span id="spanScore">0</span></div>
+                <div class="ui-block-a" style="border:1px solid black; font-size:450%"><span>有效总票数</span></div>
+                <div class="ui-block-b" style="border:1px solid black; font-size:450%"><span id="spanNum">0</span></div>
+                <div hidden>
+                    <div class="ui-block-a"><span></span></div>
+                    <div class="ui-block-a"><span>详细信息：</span></div>
+                    <div class="ui-block-a" style="border:1px solid black;"><span>领导分数</span></div>
+                    <div class="ui-block-b" style="border:1px solid black;"><span id="spanVipScore">0</span></div>
+                    <div class="ui-block-a" style="border:1px solid black;"><span>领导票数</span></div>
+                    <div class="ui-block-b" style="border:1px solid black;"><span id="spanVipNum">0</span></div>
+                    <div class="ui-block-a" style="border:1px solid black;"><span>普通分数</span></div>
+                    <div class="ui-block-b" style="border:1px solid black;"><span id="spanNomScore">0</span></div>
+                    <div class="ui-block-a" style="border:1px solid black;"><span>普通票数</span></div>
+                    <div class="ui-block-b" style="border:1px solid black;"><span id="spanNomNum">0</span></div>
+                    <div class="ui-block-a" style="border:1px solid black;"><span>弃权票数</span></div>
+                    <div class="ui-block-b" style="border:1px solid black;"><span id="spanGivUpNum">0</span></div>
+                </div>
+            </div>
+            <button onclick="Refresh();">刷新</button>
+            <button onclick="ReStart();">重启系统</button>
+        </div>
+
+        <div data-role="footer" data-role="controlgroup" data-type="horizontal">
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <form method="post" action="demoform.html">
+                        <fieldset class="ui-field-contain">
+                            <label for="CandidateName">候选人</label>
+                            <select name="CandidateName" id="CandidateName">
+                                <!--<option value="马云">马云</option>
+                                <option value="刘德华">刘德华</option>
+                                <option value="姚明">姚明</option>-->
+                            </select>
+                        </fieldset>
+                    </form>
+                    <a href="#pageVote" class="ui-btn ui-corner-all ui-shadow ui-icon-edit ui-btn-icon-left ">开始下一候选人投票</a>
+                </div>
+                <div class="ui-block-b">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div data-role="page" data-dialog="true" id="pageVote">
+        <div data-role="header">
+            <h1>确认下一轮投票？</h1>
+        </div>
+        <div data-role="main" class="ui-content">
+            <label id="labNamePup"></label>
+        </div>
+        <div data-role="footer">
+            <a href="#" id="btnVote" class="ui-btn ui-corner-all ui-shadow ui-icon-edit ui-btn-icon-left " onclick="SetNextCandidate();">确认开始</a>
+        </div>
+    </div>
+    <div data-role="page" data-dialog="true" id="pageExport">
+        <div data-role="header"><h1>详细数据</h1></div>
+        <div data-role="main" class="ui-content">
+            <form method="post" action="demoform.php">
+                <div class="ui-field-contain">
+                    <label for="info">详细数据:</label>
+                    <textarea name="addinfo" id="info"></textarea>
+                </div>
+            </form>
+            <p><b>注意：</b> 文本框会根据你的输入自动调整文本框的高度，你可以在以上文本框输入内容，查看效果。</p>
+        </div>
+        <div data-role="footer"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>//这句很重要，且位置必须放在js的引入之后
+    <script>
+        $(function () {
+            $("#login").click(function () {
+                var s = $("#ID").val();
+                save()
+                $.ajax({
+                    type: 'POST',
+                    url: 'LoginHandler.ashx',
+                    data: { ID: s },
+                    success: function (data) {
+                        switch (data) {
+                            case "ok": {
+                                window.location = "VotePage.html";
+                                break;
+                            }
+                            case "admin": {
+                                window.location = "Admin.html";
+                                break;
+                            }
+                            default: {
+                                alert(data);
+                            }
+                        }
+                    }, error: function () {
+
+                    }
+                })
+            })
+        })
+
+        $(document).ready(function () {
+            var rem = $.cookie('rmbUser');
+            if (rem=="true") {
+                $("#ck_rmbUser").prop("checked", true).checkboxradio("refresh");;
+                $("#ID").val($.cookie("username"));
+                //$("#password").remove();
+                //$("#pass").append("<input id='password' type='password' class='txt2'/>");
+                //$("#password").val($.cookie("password"));
+            }
+        });
+
+
+        //记住用户名密码
+        function save() {
+            if ($("#ck_rmbUser").prop("checked")) {
+                var username = $("#ID").val();
+                //var password = $("#password").val();
+                $.cookie("rmbUser", "true", { expires: 7 }); //存储一个带7天期限的cookie
+                $.cookie("username", username, { expires: 7 });
+                //$.cookie("password", password, { expires: 7 });
+            } else {
+                $.cookie("rmbUser", "false", { expire: -1 });
+                $.cookie("username", "", { expires: -1 });
+                //$.cookie("password", "", { expires: -1 });
+            }
+        };
+    </script>
+</head>
+<body>
+    <div data-role="page">
+        <div data-role="header">
+            <h1>桂阳财政局匿名投票系统</h1>
+        </div>
+        <div data-role="main" class="ui-content">
+            <form method="post">
+                <label for="ID">评委授权码：</label>
+                <input type="text" name="ID" id="ID">
+                <label for="ck_rmbUser">记住我</label>
+                <input type="checkbox" name="favcolor" id="ck_rmbUser" value="false">
+                <input type="submit" data-inline="true" id="login" value="登录">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
