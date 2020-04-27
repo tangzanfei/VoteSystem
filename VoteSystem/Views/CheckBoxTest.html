@@ -1,0 +1,92 @@
+﻿<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script>
+        $(function () {
+            $("#submit").click(function () {
+                var s = $("#ID").val();
+                save()
+                $.ajax({
+                    type: 'POST',
+                    url: 'OprationHandler.ashx',
+                    data: { ID: s },
+                    success: function (data) {
+                        switch (data) {
+                            case "ok": {
+                                window.location = "VotePage.html";
+                                break;
+                            }
+                            case "admin": {
+                                window.location = "Admin.html";
+                                break;
+                            }
+                            default: {
+                                alert(data);
+                            }
+                        }
+                    }, error: function () {
+
+                    }
+                })
+            })
+        })
+
+        $(function () {
+            var maxCheck = 2;
+            //加上判断是否达到数量要求
+            if ($(":checkbox").size() >= maxCheck) {
+                $(":checkbox").removeAttr("checked");
+                $(":checkbox").attr("disabled", "disabled");
+                $(":checkbox").removeAttr("disabled");
+            }
+            var num = 0;
+            $(":checkbox").each(function () {
+                $(this).click(function () {
+                    if ($(this)[0].checked) {
+                        ++num;
+                        if (num >= maxCheck) {           //alert("最多选择 三项 的上限已满, 其他选项将会变为不可选.");
+                            $(":checkbox").each(function () {
+                                if (!$(this)[0].checked) {
+                                    $(this).attr("disabled", "disabled");
+                                }
+                            });
+                        }
+                    } else {
+                        --num;
+                        if (num <= maxCheck-1) {
+                            $(":checkbox").each(function () {
+                                if (!$(this)[0].checked) {
+                                    $(this).removeAttr("disabled");
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+        })
+    </script>
+</head>
+<body>
+    <form method="post" action="">
+        <fieldset data-role="controlgroup">
+            <legend>选三个</legend>
+            <label for="1">张三</label>
+            <input type="checkbox" name="favcolor" id="1" value="001">
+            <label for="2">李四</label>
+            <input type="checkbox" name="favcolor" id="2" value="002">
+            <label for="3">王五</label>
+            <input type="checkbox" name="favcolor" id="3" value="003">
+            <label for="11">张的</label>
+            <input type="checkbox" name="favcolor" id="11" value="004">
+            <label for="12">李是</label>
+            <input type="checkbox" name="favcolor" id="12" value="005">
+            <label for="13">王啊</label>
+            <input type="checkbox" name="favcolor" id="13" value="006">
+        </fieldset>
+        <input type="submit" data-inline="true" id="submit" value="提交">
+    </form>
+</body>
+</html>

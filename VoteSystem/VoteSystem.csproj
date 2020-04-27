@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Admin.html" />
+    <Content Include="Views\CheckBoxTest.html" />
     <Content Include="Views\Login.html" />
     <Content Include="Views\Thanks.html" />
     <Content Include="Views\TopList.html" />
