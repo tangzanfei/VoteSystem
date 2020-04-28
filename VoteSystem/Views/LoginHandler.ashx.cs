@@ -30,6 +30,11 @@ namespace VoteSystem.Views
             var response = context.Response;
             try
             {
+                if (request.Cookies["sessionID"]==null)
+                {
+                    string sessionID = context.Session.SessionID;
+                    request.Cookies.Add(new HttpCookie("sessionID", sessionID) { Expires = DateTime.Now.AddMinutes(30) });
+                }
                 if (request.Form["ID"] != null)
                 {
                     var id = request.Form["ID"];

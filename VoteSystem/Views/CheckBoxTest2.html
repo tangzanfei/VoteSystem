@@ -5,6 +5,63 @@
     <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
     <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script>
+        $(function () {
+            $("#login").click(function () {
+                var s = $("#ID").val();
+                save()
+                $.ajax({
+                    type: 'POST',
+                    url: 'LoginHandler.ashx',
+                    data: { ID: s },
+                    success: function (data) {
+                        switch (data) {
+                            case "ok": {
+                                window.location = "VotePage.html";
+                                break;
+                            }
+                            case "admin": {
+                                window.location = "Admin.html";
+                                break;
+                            }
+                            default: {
+                                alert(data);
+                            }
+                        }
+                    }, error: function () {
+
+                    }
+                })
+            })
+        })
+
+        $(document).ready(function () {
+            var rem = $.cookie('rmbUser');
+            if (rem == "true") {
+                $("#ck_rmbUser").prop("checked", true).checkboxradio("refresh");;
+                $("#ID").val($.cookie("username"));
+
+            }
+        });
+
+
+        //记住用户名密码
+        function save() {
+            if ($("#ck_rmbUser").prop("checked")) {
+                var username = $("#ID").val();
+                //var password = $("#password").val();
+                $.cookie("rmbUser", "true", { expires: 7 }); //存储一个带7天期限的cookie
+                $.cookie("username", username, { expires: 7 });
+                //$.cookie("password", password, { expires: 7 });
+            } else {
+                $.cookie("rmbUser", "false", { expire: -1 });
+                $.cookie("username", "", { expires: -1 });
+                //$.cookie("password", "", { expires: -1 });
+            }
+        };
+    </script>
+
+
 </head>
 <body>
 
@@ -15,10 +72,11 @@
 
         <div data-role="main" class="ui-content">
             <form method="post" action="demoform.asp">
-                <div class="ui-field-contain">
+                <div>
                     <fieldset class="ui-field-contain">
-                        <label for="1">王1</label>
-                        <div style="display:inline-block;min-width:200px;">
+                        <div style="width:100px;">
+                            <label for="1">王1</label>
+
                             <select name="day" id="1" data-mini="true">
                                 <option value="10">优秀</option>
                                 <option value="8">称职</option>
@@ -28,19 +86,20 @@
                         </div>
                     </fieldset>
                 </div>
-                <div class="ui-field-contain">
-                    <fieldset class="ui-field-contain">
+             
+                <fieldset class="ui-field-contain">
+                    <!--<div style="max-width:100px;">-->
                         <label for="1">王2</label>
-                        <div style="display:inline-block;min-width:200px;">
-                            <select name="day" id="1" data-mini="true">
-                                <option value="10">优秀</option>
-                                <option value="8">称职</option>
-                                <option value="6">基本称职</option>
-                                <option value="3">不称职</option>
-                            </select>
-                        </div>
-                    </fieldset>
-                </div>
+                    <!--</div>-->
+                        <select name="day" id="1" data-mini="true">
+                            <option value="10">优秀</option>
+                            <option value="8">称职</option>
+                            <option value="6">基本称职</option>
+                            <option value="3">不称职</option>
+                        </select>
+                   
+                </fieldset>
+             
                 <div class="ui-field-contain">
                     <fieldset class="ui-field-contain">
                         <label for="1">王3</label>
