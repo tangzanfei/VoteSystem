@@ -24,5 +24,17 @@ namespace VoteSystem.Models
         /// 是否是VIP
         /// </summary>
         public bool IsVip { get; set; }
+
+        private Dictionary<string, int> scoreList = new Dictionary<string, int>();
+
+        /// <summary>
+        /// 投票列表
+        /// </summary>
+        public Dictionary<string,int> ScoreList
+        {
+            get { return scoreList; }
+            set { scoreList = value; }
+        }
+
     }
 }

@@ -19,7 +19,7 @@
                             var len = data.length;
                             for (var i = 0; i < len; i++) {
                                 var listview = document.createElement("TopListView");
-                                $("#TopListView").append(('<li><span>' + data[i].Index + '</span><span>' + data[i].Name + '</span > <span class="ui-li-count">' + data[i].Score+'</span ></li > '));
+                                $("#AdminTopListView").append(('<li><span>' + data[i].Index + '</span><span>' + data[i].Name + '</span > <span class="ui-li-count">' + data[i].Score+'</span ></li > '));
                             }
                         }
 
@@ -37,9 +37,10 @@
     <div data-role="page"  id="pageTopOne">
         <div data-role="header"><h1>排行榜</h1></div>
         <div data-role="main" class="ui-content">
-            <h2>得分排名</h2>
-            <ul data-role="listview" data-inset="true" id="TopListView">
-            </ul>
+            <h2>行政得分排名</h2>
+            <ul data-role="listview" data-inset="true" id="AdminTopListView"></ul>
+            <h2>事业得分排名</h2>
+            <ul data-role="listview" data-inset="true" id="TopListView"></ul>
         </div>
         <div data-role="footer"></div>
     </div>

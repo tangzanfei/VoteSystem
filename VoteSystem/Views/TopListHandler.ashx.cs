@@ -52,9 +52,11 @@ namespace VoteSystem.Views
                     case "GetScoreList":
                         if (AppDomain.Candidates != null)
                         {
+                            AppDomain.SumResult();
                             var list= AppDomain.Candidates.ToArray().ToList();
                             list = list.OrderByDescending(c => c.Score).ToList();
                             int count = list.Count;
+                            List<TopListItem> admintoplist = new List<TopListItem>();
                             List<TopListItem> toplist = new List<TopListItem>();
                             for (int i = 0; i < count; i++)
                             {
@@ -65,6 +67,7 @@ namespace VoteSystem.Views
                                     Score = list[i].Score
                                 });
                             }
+                            //toplist.Select((t)=>t.)
                             var json = JsonHelper.ObjectToJSON(toplist);
                             context.Response.Write(json);
                         }

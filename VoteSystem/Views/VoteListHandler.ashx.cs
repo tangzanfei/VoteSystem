@@ -24,39 +24,65 @@ namespace VoteSystem.Views
                 int i = 0;
                 //List<int> a = new List<int> { 1, 2, 3 };
                 //int[] b = { 1, 2, 3 };
-                //string astr= Models.JsonHelper.ObjectToJSON(b);
+                //string astr= JsonHelper.ObjectToJSON(b);
                 score = score.Insert(0, "[");
                 score = score + "]";
                 var nameList = name.Split(',');
-                var scoreList = Models.JsonHelper.JSONToObject<List<int>>(score);
+                var scoreList = JsonHelper.JSONToObject<List<int>>(score);
 
                 string id = context.Session["ID"].ToString();//投票人ID
 
-                if (AppDomain.Candidates != null && AppDomain.Candidates[0] != null && AppDomain.Candidates[0].Voters != null)
+                if (AppDomain.Voters != null && AppDomain.Voters.Count > 0 )
                 {
-                    if (AppDomain.Candidates[0].Voters.Exists(v => { return v.ID.Equals(id); }))
+                    if (!AppDomain.Voters.Exists(v => { return v.ID.Equals(id); }))
                     {
-                        response.Write("投票失败，您已投过票，请勿重复投票");
+                        response.Write("投票失败,无效的授权码");
+                        return;
+                    }
+                    else
+                    {
+                        Vote(id, nameList, scoreList);
+                        response.Write("ok");
                         return;
                     }
                 }
-                Vote(id, nameList, scoreList);
+                response.Write("投票已结束或尚未开始");
 
-                response.Write("ok");
             }
             catch(Exception e)
             {
-                Models.FileHelper.WriteLog(e);
+                FileHelper.WriteLog(e);
             }
         }
 
 
-
+        /// <summary>
+        /// 收集一个人的投票结果，尚未汇总分数。如已投过票，则覆盖
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="score"></param>
         public void Vote(string id, string[] name, List<int> score)
         {
-//1.根据name在appdomain找到候选人
-//2.判断候选人的选票列表是否为空，为空则new
-//3.找到选票列表有没有id，有则，给它赋值score，没有则new一个新的并添加到候选人的选票列表
+
+            //1.在app中找到投票人列表，根据id找到投票者，如果没有就new一个，如果有就赋值。
+            if (AppDomain.Voters!=null && AppDomain.Voters.Count>0)
+            {
+                var vote = AppDomain.Voters.Find((v) => { return v.ID == id; });
+                if (vote==null)
+                {
+                    vote = new Voter();
+                    AppDomain.Voters.Add(vote);
+                }
+                vote.ID = id;
+                vote.ScoreList.Clear();
+                for (int i = 0; i < name.Length; i++)
+                {
+                    vote.ScoreList.Add(name[i], score[i]);
+                }
+            }
+
+
             //foreach (var cand in AppDomain.Candidates)
             //{
             //    if (cand != null)

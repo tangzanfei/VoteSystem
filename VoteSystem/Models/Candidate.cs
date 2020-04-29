@@ -20,6 +20,9 @@ namespace VoteSystem.Models
         /// </summary>
         public double Score { get; set; }
 
+        /// <summary>
+        /// 票数
+        /// </summary>
         public int VoteNum { get; set; }
 
         /// <summary>
@@ -39,70 +42,19 @@ namespace VoteSystem.Models
         }
 
 
-        public int VipNum { get; set; }
-
-        public int NomNum { get; set; }
-
-        public int VipScore { get; set; }
-
-        public int NomScore { get; set; }
-
-        public int GiveUpNum { get; set; }
 
         public double GetResult()
         {
             double score = 0;
-            int vipNum = 0, vipScore = 0, nomNum = 0, nomScore = 0,giveUpNum=0;
             if (Voters != null)
             {
 
                 foreach (var vote in Voters)
                 {
-                    if (vote.IsVip)
-                    {
-                        //弃权票不计入，超出分数范围视为弃权票
-                        if (vote.Score >= 70 && vote.Score <= 95)
-                        {
-                            vipNum++;
-                            vipScore += vote.Score;
-
-                        }
-                        else
-                        {
-                            giveUpNum++;
-                        }
-
-                    }
-                    else
-                    {
-                        if (vote.Score >= 70 && vote.Score <= 95)
-                        {
-                            nomNum++;
-                            nomScore += vote.Score;
-                        }
-                        else
-                        {
-                            giveUpNum++;
-                        }
-                        
-                    }
-                }
-                if (vipNum!=0)
-                {
-                    score += vipScore * 0.6 / vipNum;
-                }
-                if (nomNum!=0)
-                {
-                    score += nomScore * 0.4 / nomNum;
-
+                    score += vote.Score;
                 }
                 Score = score;
-                VipNum = vipNum;
-                VipScore = vipScore;
-                NomNum = nomNum;
-                NomScore = nomScore;
-                VoteNum = nomNum + vipNum;
-                GiveUpNum = giveUpNum;
+                VoteNum = voters.Count;
             }
             return score;
         }

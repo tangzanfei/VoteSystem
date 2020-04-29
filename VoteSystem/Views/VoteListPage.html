@@ -18,14 +18,12 @@
                     name[i] = $(this).attr("id");;
                     score[i] = $(this).val();
                     i++;
-                    //这个obj就是你的每个下拉框的值
                 })
 
                 $.ajax({
                     type: 'POST',
                     url: 'VoteListHandler.ashx',
                     data: { Name: name, Score: score },
-                    dataType: "json",
                     success: function (data) {
                         if (data != "ok") {
                             alert(data);
@@ -50,8 +48,8 @@
         <div data-role="main" class="ui-content">
             <form method="post">
                 <fieldset class="ui-field-contain">
-                    <label for="刘德华">刘德华</label>
-                    <select name="day" id="刘德华" data-mini="true">
+                    <label for="李跃华">李跃华</label>
+                    <select name="day" id="李跃华" data-mini="true">
                         <option value="10">优秀</option>
                         <option value="8" selected>称职</option>
                         <option value="6">基本称职</option>
@@ -60,8 +58,8 @@
                 </fieldset>
 
                 <fieldset class="ui-field-contain">
-                    <label for="马云">马云</label>
-                    <select name="day" id="马云" data-mini="true">
+                    <label for="陈欣">陈欣</label>
+                    <select name="day" id="陈欣" data-mini="true">
                         <option value="10">优秀</option>
                         <option value="8" selected>称职</option>
                         <option value="6">基本称职</option>
@@ -70,14 +68,24 @@
                 </fieldset>
 
                 <fieldset class="ui-field-contain">
-                    <label for="王二小">王二小</label>
-                    <select name="day" id="王二小" data-mini="true">
+                    <label for="卢琼">卢琼</label>
+                    <select name="day" id="卢琼" data-mini="true">
                         <option value="10">优秀</option>
                         <option value="8" selected>称职</option>
                         <option value="6">基本称职</option>
                         <option value="3">不称职</option>
                     </select>
-                </fieldset>                <a href="#pageVote" class="ui-btn ui-corner-all ui-shadow ui-icon-edit ui-btn-icon-left ">提交</a>
+                </fieldset>
+                <fieldset class="ui-field-contain">
+                    <label for="周琳">周琳</label>
+                    <select name="day" id="周琳" data-mini="true">
+                        <option value="10">优秀</option>
+                        <option value="8" selected>称职</option>
+                        <option value="6">基本称职</option>
+                        <option value="3">不称职</option>
+                    </select>
+                </fieldset>
+                <a href="#pageVote" class="ui-btn ui-corner-all ui-shadow ui-icon-edit ui-btn-icon-left ">提交</a>
 
             </form>
         </div>

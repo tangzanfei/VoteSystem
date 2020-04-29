@@ -8,11 +8,14 @@ namespace VoteSystem
     using Models;
     public static class AppDomain
     {
-
+        public static int[] debug = new int[3];
         public static bool IsInited { get; set; }
 
         private static List<Candidate> candidates=new List<Candidate>();
 
+        /// <summary>
+        /// 候选人列表
+        /// </summary>
         public static List<Candidate> Candidates
         {
             get { return candidates; }
@@ -21,6 +24,9 @@ namespace VoteSystem
 
         private static List<Voter> _voters = new List<Voter>();
 
+        /// <summary>
+        /// 投票人列表
+        /// </summary>
         public static List<Voter> Voters
         {
             get { return _voters; }
@@ -97,7 +103,34 @@ namespace VoteSystem
             }
         }
 
+        /// <summary>
+        /// 汇总计算投票结果并排序
+        /// </summary>
+        public static void SumResult()
+        {
+            int num = Voters.Count;
+            foreach (var cand in Candidates)
+            {
+                cand.Score = 0;
+                cand.VoteNum = 0;
+                
+                for (int i = 0; i < num; i++)
+                {
+                    if (Voters[i].ScoreList.ContainsKey(cand.Name))
+                    {
+                        cand.Score += Voters[i].ScoreList[cand.Name];
+                        cand.VoteNum++;
+                    }
+                }
+            }
+            Candidates.Sort((x, y) => y.Score.CompareTo(x.Score));
+        }
 
+        /// <summary>
+        /// 用于生成授权码，有授权码的情况下不需要使用
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
         public static List<string> CreateIdList(int num)
         {
             Random ran = new Random(934);

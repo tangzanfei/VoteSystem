@@ -22,12 +22,16 @@ namespace VoteSystem.Views
                 switch (action)
                 {
                     case "ExportData":
+                        AppDomain.SumResult();
+                        FileHelper.SaveReuslt();
+                        //FileHelper.LoadIDList();
+
                         //if (AppDomain.Candidates != null)
                         //{
                         //    var json = JsonHelper.ObjectToJSON(AppDomain.Candidates);
                         //    context.Response.Write(json);
                         //}
-
+                        context.Response.Write("结果导出成功");
                         break;
                     case "InitData":
                         if (InitData())

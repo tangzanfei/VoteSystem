@@ -69,7 +69,9 @@ namespace VoteSystem.Models
         }
 
 
-
+        /// <summary>
+        /// 从文件加载候选人数据
+        /// </summary>
         public static void LoadCandidates()
         {
             try
@@ -114,12 +116,65 @@ namespace VoteSystem.Models
             }
 
         }
+
+        /// <summary>
+        /// 保存投票结果
+        /// </summary>
+        public static void SaveReuslt()
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(HttpRuntime.AppDomainAppPath + "ResultA.txt"))
+                {
+                    int index = 1;
+                    foreach (var cand in AppDomain.Candidates)
+                    {
+                        if (cand.IsAdmin)
+                        {
+                            sw.WriteLine("名次：{0},{1},分数：{2},票数：{3}", index, cand.Name, cand.Score, cand.VoteNum);
+                            index++;
+                        }
+                    }
+                }
+                using (StreamWriter sw = new StreamWriter(HttpRuntime.AppDomainAppPath + "ResultB.txt"))
+                {
+                    int index = 1;
+                    foreach (var cand in AppDomain.Candidates)
+                    {
+                        if (!cand.IsAdmin)
+                        {
+                            sw.WriteLine("名次：{0},{1},分数：{2},票数：{3}", index, cand.Name, cand.Score, cand.VoteNum);
+                            index++;
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+                WriteLog(e);
+            }
+
+        }
+
+
+        /// <summary>
+        /// 写错误日志
+        /// </summary>
+        /// <param name="e"></param>
         public static void WriteLog(Exception e)
         {
             using (StreamWriter sw = new StreamWriter(HttpRuntime.AppDomainAppPath + "Log.txt", true))
             {
                 sw.WriteLine(DateTime.Now);
-                sw.WriteLine(e.Message);
+                if (e.InnerException != null)
+                {
+                    sw.WriteLine(e.InnerException.Message);
+                }
+                else
+                {
+                    sw.WriteLine(e.Message);
+                }
             }
         }
     }
