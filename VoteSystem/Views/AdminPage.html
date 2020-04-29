@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1" charset="utf-8">
+    <link rel="stylesheet" href="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script>
+        $(function () {
+            $(document).ready(function () {
+                //window.setInterval("Refresh()", 5000);
+
+                $.ajax({
+                    type: 'post',
+                    url: 'AdminPageHandler.ashx',
+                    contentType: "application/x-www-form-urlencoded;charset=utf-8;",
+                    data: { action: "InitData", param1: "" },
+                    dataType: "text",
+                    success: function (msg) {
+                        if (msg != null && msg != "") {
+                            alert(msg);
+                            //window.setInterval("Refresh()", 5000);
+                            //RefreshCandidates();
+                        }
+
+                        //document.getElementById("spanName").innerHTML = json[""];
+                    }, error: function (error) {
+                        alert("error=" + error);
+                    }
+                })
+            })
+        })
+    </script>
+
+
+</head>
+
+<body>
+    <div data-role="page">
+        <div data-role="header">
+            <a href="#TopList.html" id="btnTopList" class="ui-btn ui-corner-all ui-shadow ui-icon-home ui-btn-icon-left" onclick="TopList()">排行榜</a>
+            <a href="#pageExport" id="btnTopList" class="ui-btn ui-corner-all ui-shadow ui-icon-action ui-btn-icon-left" onclick="ExportData()">导出数据</a>
+            <h1>管理员后台</h1>
+        </div>
+    </div>
+    <div data-role="page" data-dialog="true" id="pageExport">
+        <div data-role="header"><h1>详细数据</h1></div>
+        <div data-role="main" class="ui-content">
+            <form method="post" action="demoform.php">
+                <div class="ui-field-contain">
+                    <label for="info">详细数据:</label>
+                    <textarea name="addinfo" id="info"></textarea>
+                </div>
+            </form>
+            <p><b>注意：</b> 文本框会根据你的输入自动调整文本框的高度，你可以在以上文本框输入内容，查看效果。</p>
+        </div>
+        <div data-role="footer"></div>
+    </div>
+</body>
+</html>

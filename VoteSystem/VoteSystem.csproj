@@ -71,11 +71,13 @@
     <Content Include="Lib\DataB.txt" />
     <Content Include="Lib\DataC.txt" />
     <Content Include="Views\Admin.html" />
+    <Content Include="Views\AdminPage.html" />
     <Content Include="Views\CheckBoxTest.html" />
     <Content Include="Views\CheckBoxTest2.html" />
     <Content Include="Views\Login.html" />
     <Content Include="Views\Thanks.html" />
     <Content Include="Views\TopList.html" />
+    <Content Include="Views\VoteListPage.html" />
     <Content Include="Views\VotePage.html" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -92,6 +94,9 @@
     <Compile Include="Views\AdminHandler.ashx.cs">
       <DependentUpon>AdminHandler.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Views\AdminPageHandler.ashx.cs">
+      <DependentUpon>AdminPageHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Views\GetNameHandler.ashx.cs">
       <DependentUpon>GetNameHandler.ashx</DependentUpon>
     </Compile>
@@ -103,6 +108,9 @@
     </Compile>
     <Compile Include="Views\TopListHandler.ashx.cs">
       <DependentUpon>TopListHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VoteListHandler.ashx.cs">
+      <DependentUpon>VoteListHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Views\VotePageHandler.ashx.cs">
       <DependentUpon>VotePageHandler.ashx</DependentUpon>
@@ -118,6 +126,8 @@
     <Content Include="Views\AdminHandler.ashx" />
     <Content Include="Views\OprationHandler.ashx" />
     <Content Include="Views\TopListHandler.ashx" />
+    <Content Include="Views\AdminPageHandler.ashx" />
+    <Content Include="Views\VoteListHandler.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

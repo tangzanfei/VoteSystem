@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using VoteSystem.Models;
 
 namespace VoteSystem.Views
 {
@@ -48,14 +49,10 @@ namespace VoteSystem.Views
 
                     if (CheckID(id))
                     {
-                        if (AppDomain.CurrentCandidate != null && AppDomain.IsInited)
+                        if (AppDomain.IsInited)
                         {
                             context.Session["ID"] = id;
-                            
-                            if (AppDomain.CurrentCandidate.Voters!=null && AppDomain.CurrentCandidate.Voters.Exists(v => { return v.ID.Equals(id); }))
-                                response.Write("您已投过票，请勿重复投票");
-                            else
-                                response.Write("ok");
+                            response.Write("ok");
                         }
                         else
                         {
@@ -66,7 +63,6 @@ namespace VoteSystem.Views
                     {
                         response.Write("无效的ID");
                     }
-
                 }
                 else
                 {
@@ -76,6 +72,7 @@ namespace VoteSystem.Views
             }
             catch (Exception e)
             {
+                FileHelper.WriteLog(e);
                 response.Write(e);
             }
 
