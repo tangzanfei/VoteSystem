@@ -22,6 +22,11 @@ namespace VoteSystem.Models
 
         public int VoteNum { get; set; }
 
+        /// <summary>
+        /// 是否是行政编制
+        /// </summary>
+        public bool IsAdmin { get; set; }
+
         private List<Voter> voters = new List<Voter>();
 
         /// <summary>

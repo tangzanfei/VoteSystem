@@ -67,6 +67,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Lib\DataA.txt" />
+    <Content Include="Lib\DataB.txt" />
+    <Content Include="Lib\DataC.txt" />
     <Content Include="Views\Admin.html" />
     <Content Include="Views\CheckBoxTest.html" />
     <Content Include="Views\CheckBoxTest2.html" />
@@ -82,6 +85,7 @@
       <DependentUpon>IndexHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Models\Candidate.cs" />
+    <Compile Include="Models\FileHelper.cs" />
     <Compile Include="Models\JsonHelper.cs" />
     <Compile Include="Models\Voter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

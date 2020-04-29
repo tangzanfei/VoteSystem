@@ -34,7 +34,9 @@ namespace VoteSystem.Views
             }
             catch (Exception ex)
             {
-                context.Response.Write("error");            }
+                FileHelper.WriteLog(ex);
+                context.Response.Write("error"); 
+            }
 
         }
 

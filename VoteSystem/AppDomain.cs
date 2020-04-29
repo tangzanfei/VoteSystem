@@ -108,6 +108,18 @@ namespace VoteSystem
                 var uuid = ran.Next(999999);
                 list.Add(uuid.ToString("D6"));
             }
+            list.Sort();
+            list = list.Distinct().ToList();
+
+            if (list.Count<num)
+            {
+                //有重复项被删除时，补充，因为此次num不到200，在一百万中取一百个随机数重复概率极小，因此仅重复补充一次就可
+#warning 后续若num增加则可能导致生成的数量不够的bug，需要做修改优化
+                var uuid = ran.Next(999999);
+                list.Add(uuid.ToString("D6"));
+                list.Sort();
+
+            }
             return list;
         }
 

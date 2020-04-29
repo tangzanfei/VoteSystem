@@ -76,6 +76,7 @@ namespace VoteSystem.Views
             }
             catch (Exception ex)
             {
+                FileHelper.WriteLog(ex);
                 context.Response.Write("error");
             }
 
