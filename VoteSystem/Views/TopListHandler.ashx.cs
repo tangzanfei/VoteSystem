@@ -37,6 +37,14 @@ namespace VoteSystem.Views
                 set { _score = value; }
             }
 
+            private int voteNum;
+
+            public int VoteNum
+            {
+                get { return voteNum; }
+                set { voteNum = value; }
+            }
+
 
         }
 
@@ -56,19 +64,40 @@ namespace VoteSystem.Views
                             var list= AppDomain.Candidates.ToArray().ToList();
                             list = list.OrderByDescending(c => c.Score).ToList();
                             int count = list.Count;
+                            //var list1 = list.SkipWhile(c => c.IsAdmin==false).ToList();
+                            //var list2 = list.SkipWhile(c => c.IsAdmin == true).ToList();
+                            var list1 = list.Where(c => c.IsAdmin).ToList();
+                            var list2 = list.Where(a => !a.IsAdmin).ToList();
                             List<TopListItem> admintoplist = new List<TopListItem>();
                             List<TopListItem> toplist = new List<TopListItem>();
-                            for (int i = 0; i < count; i++)
+
+                            for (int i = 0; i < list1.Count; i++)
+                            {
+                                admintoplist.Add(new TopListItem()
+                                {
+                                    Index = i + 1,
+                                    Name = list1[i].Name,
+                                    Score = list1[i].Score,
+                                    VoteNum = list1[i].VoteNum
+                                });
+                            }
+
+
+                            for (int i = 0; i < list2.Count; i++)
                             {
                                 toplist.Add(new TopListItem()
                                 {
-                                    Index = i+1,
-                                    Name = list[i].Name,
-                                    Score = list[i].Score
+                                    Index = i + 1,
+                                    Name = list2[i].Name,
+                                    Score = list2[i].Score,
+                                    VoteNum = list2[i].VoteNum
                                 });
                             }
-                            //toplist.Select((t)=>t.)
-                            var json = JsonHelper.ObjectToJSON(toplist);
+                            Dictionary<string, List<TopListItem>> dic = new Dictionary<string, List<TopListItem>>();
+                            dic.Add("admin", admintoplist);
+                            dic.Add("list", toplist);
+
+                            var json = JsonHelper.ObjectToJSON(dic);
                             context.Response.Write(json);
                         }
                         break;

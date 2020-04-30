@@ -148,6 +148,21 @@ namespace VoteSystem.Models
                         }
                     }
                 }
+                using (StreamWriter sw = new StreamWriter(HttpRuntime.AppDomainAppPath + "Detail.txt"))
+                {
+                    int index = 1;
+                    sw.WriteLine("投票明细数据：");
+                    foreach (var voter in AppDomain.Voters)
+                    {
+                        sw.WriteLine("授权码：{0}", voter.ID);
+                        foreach (var dic in voter.ScoreList)
+                        {
+                            sw.WriteLine("{0},{1}分", dic.Key, dic.Value);
+                        }
+                        sw.WriteLine();
+                        index++;
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -157,6 +172,38 @@ namespace VoteSystem.Models
 
         }
 
+        public static void SaveHtml()
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(HttpRuntime.AppDomainAppPath + "Html.txt"))
+                {
+                    int index = 1;
+                    foreach (var cand in AppDomain.Candidates)
+                    {
+                        sw.WriteLine("<fieldset data-role = \"controlgroup\" data-type = \"horizontal\" id = \"{0}\" >", cand.Name);
+                        sw.WriteLine("<legend > {0} </legend >", cand.Name);
+                        sw.WriteLine("<label for= \"{0}A\" > 优秀 </label >", cand.Name);
+                        sw.WriteLine("<input type = \"radio\" name = \"{0}\" id = \"{0}A\" value = \"10\" >", cand.Name);
+                        sw.WriteLine("<label for= \"{0}B\" > 称职 </label >", cand.Name);
+                        sw.WriteLine("<input type = \"radio\" name = \"{0}\" id = \"{0}B\" value = \"8\" checked>", cand.Name);
+                        sw.WriteLine("<label for= \"{0}C\" > 基本称职 </label >     ", cand.Name);
+                        sw.WriteLine("<input type = \"radio\" name = \"{0}\" id = \"{0}C\" value = \"7\" >", cand.Name);
+                        sw.WriteLine("<label for= \"{0}D\" > 不称职 </label >", cand.Name);
+                        sw.WriteLine("<input type = \"radio\" name = \"{0}\" id = \"{0}D\" value = \"5\" >", cand.Name);
+                        sw.WriteLine("</fieldset >", cand.Name);
+
+                        index++;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+                WriteLog(e);
+            }
+
+        }
 
         /// <summary>
         /// 写错误日志

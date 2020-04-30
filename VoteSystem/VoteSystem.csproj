@@ -78,6 +78,7 @@
     <Content Include="Views\Thanks.html" />
     <Content Include="Views\TopList.html" />
     <Content Include="Views\VoteListPage.html" />
+    <Content Include="Views\VoteListPage1.html" />
     <Content Include="Views\VotePage.html" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -99,6 +100,9 @@
     </Compile>
     <Compile Include="Views\GetNameHandler.ashx.cs">
       <DependentUpon>GetNameHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoadCandidateHandler.ashx.cs">
+      <DependentUpon>LoadCandidateHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginHandler.ashx.cs">
       <DependentUpon>LoginHandler.ashx</DependentUpon>
@@ -128,6 +132,7 @@
     <Content Include="Views\TopListHandler.ashx" />
     <Content Include="Views\AdminPageHandler.ashx" />
     <Content Include="Views\VoteListHandler.ashx" />
+    <Content Include="Views\LoadCandidateHandler.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

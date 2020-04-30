@@ -16,10 +16,21 @@
                     dataType: "json",
                     success: function (data) {
                         if (data != null) {
-                            var len = data.length;
+
+                            var adminlist = data["admin"];
+                            var list = data["list"];
+                            var len = adminlist.length;
                             for (var i = 0; i < len; i++) {
                                 var listview = document.createElement("TopListView");
-                                $("#AdminTopListView").append(('<li><span>' + data[i].Index + '</span><span>' + data[i].Name + '</span > <span class="ui-li-count">' + data[i].Score+'</span ></li > '));
+                                //$("#AdminTopListView").append(('<li><span >' + adminlist[i].Index + '</span><span>' + adminlist[i].Name + '</span > <span >' + adminlist[i].Score + '</span > <span >' + adminlist[i].VoteNum + '</span ></li > '));
+                                $("#AdminTopListView").append(('<tr><td>' + adminlist[i].Index + '</td><td>' + adminlist[i].Name + '</td><td>' + adminlist[i].Score + '</td><td>' + adminlist[i].VoteNum +'</td></tr> '));
+                            }
+                            len = list.length;
+                            for (var i = 0; i < len; i++) {
+                                var listview = document.createElement("TopListView");
+                                //$("#TopListView").append(('<li><span>' + list[i].Index + '</span><span>' + list[i].Name + '</span > <span >' + list[i].Score + '</span ></li > '));
+                                $("#TopListView").append(('<tr><td>' + list[i].Index + '</td><td>' + list[i].Name + '</td><td>' + list[i].Score + '</td><td>' + list[i].VoteNum + '</td></tr> '));
+
                             }
                         }
 
@@ -36,11 +47,40 @@
 
     <div data-role="page"  id="pageTopOne">
         <div data-role="header"><h1>排行榜</h1></div>
-        <div data-role="main" class="ui-content">
-            <h2>行政得分排名</h2>
-            <ul data-role="listview" data-inset="true" id="AdminTopListView"></ul>
-            <h2>事业得分排名</h2>
-            <ul data-role="listview" data-inset="true" id="TopListView"></ul>
+        <div data-role="main" class="ui-content" style="margin-left:auto;margin-right:auto;max-width:800px;">
+            <!--<h2>行政得分排名</h2>
+    <ul data-role="listview" data-inset="true" id="AdminTopListView"></ul>
+    <h2>事业得分排名</h2>
+    <ul data-role="listview" data-inset="true" id="TopListView"></ul>-->
+            <div class="ui-grid-a">
+                <div class="ui-block-a" style="margin-left:auto;margin-right:auto;">
+                    <h4>行政排名</h4>
+                    <table data-role="table" class="ui-responsive" id="AdminTopListView" style="border-style:solid;border-width:1px;">
+                        <thead>
+                            <tr>
+                                <th width="50">排名</th>
+                                <th width="120">姓名</th>
+                                <th>分数</th>
+                                <th>票数</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="ui-block-b" style="margin-left:auto;margin-right:auto;">
+                    <h4>事业排名</h4>
+                    <table data-role="table" class="ui-responsive" id="TopListView" style="border-style:solid;border-width:1px;">
+                        <thead>
+                            <tr>
+                                <th width="50">排名</th>
+                                <th width="120">姓名</th>
+                                <th>分数</th>
+                                <th>票数</th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                </div>
+            </div>
         </div>
         <div data-role="footer"></div>
     </div>
