@@ -188,9 +188,9 @@ namespace VoteSystem.Models
                         sw.WriteLine("<label for= \"{0}B\" > 称职 </label >", cand.Name);
                         sw.WriteLine("<input type = \"radio\" name = \"{0}\" id = \"{0}B\" value = \"8\" checked>", cand.Name);
                         sw.WriteLine("<label for= \"{0}C\" > 基本称职 </label >     ", cand.Name);
-                        sw.WriteLine("<input type = \"radio\" name = \"{0}\" id = \"{0}C\" value = \"7\" >", cand.Name);
+                        sw.WriteLine("<input type = \"radio\" name = \"{0}\" id = \"{0}C\" value = \"6\" >", cand.Name);
                         sw.WriteLine("<label for= \"{0}D\" > 不称职 </label >", cand.Name);
-                        sw.WriteLine("<input type = \"radio\" name = \"{0}\" id = \"{0}D\" value = \"5\" >", cand.Name);
+                        sw.WriteLine("<input type = \"radio\" name = \"{0}\" id = \"{0}D\" value = \"3\" >", cand.Name);
                         sw.WriteLine("</fieldset >", cand.Name);
 
                         index++;

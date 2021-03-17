@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\财政.jpg" />
     <Content Include="Lib\DataA.txt" />
     <Content Include="Lib\DataB.txt" />
     <Content Include="Lib\DataC.txt" />

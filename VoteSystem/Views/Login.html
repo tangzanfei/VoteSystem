@@ -18,7 +18,7 @@
                     success: function (data) {
                         switch (data) {
                             case "ok": {
-                                window.location = "VoteListPage.html";
+                                window.location = "VoteListPage1.html";
                                 break;
                             }
                             case "admin": {
@@ -38,7 +38,7 @@
 
         $(document).ready(function () {
             var rem = $.cookie('rmbUser');
-            if (rem=="true") {
+            if (rem == "true") {
                 $("#ck_rmbUser").prop("checked", true).checkboxradio("refresh");;
                 $("#ID").val($.cookie("username"));
                 //$("#password").remove();
@@ -63,6 +63,13 @@
             }
         };
     </script>
+    <style>
+        img {
+            background-size: contain|cover;
+            width: 40%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
     <div data-role="page">
@@ -70,12 +77,17 @@
             <h1>桂阳财政局匿名投票系统</h1>
         </div>
         <div data-role="main" class="ui-content">
+            <div align="center">
+                <img src="../Images/财政.jpg" />
+            </div>
+            <div><h3 align="center">桂阳财政匿名投票系统</h3></div>
             <form method="post">
                 <label for="ID">评委授权码：</label>
                 <input type="text" name="ID" id="ID">
                 <!--<label for="ck_rmbUser">记住我</label>
-                <input type="checkbox" name="favcolor" id="ck_rmbUser" value="false">-->
-                <input type="submit" data-inline="true" id="login" value="登录">
+    <input type="checkbox" name="favcolor" id="ck_rmbUser" value="false">-->
+                <a href="#" id="login" class="ui-btn ui-btn-b">登  录</a>
+
             </form>
         </div>
     </div>

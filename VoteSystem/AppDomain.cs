@@ -133,7 +133,7 @@ namespace VoteSystem
         /// <returns></returns>
         public static List<string> CreateIdList(int num)
         {
-            Random ran = new Random(934);
+            Random ran = new Random();
             List<String> list = new List<string>();
             for (int i = 0; i < num; i++)
             {
