@@ -47,21 +47,23 @@ namespace VoteSystem.Views
                         return;
                     }
 
-                    if (CheckID(id))
+                    //if (AppDomain.IsInited)
+                    if (AppDomain.IsInited && AppDomain.CurrentCandidate != null)
                     {
-                        if (AppDomain.IsInited)
+                        if (CheckID(id))
                         {
+
                             context.Session["ID"] = id;
                             response.Write("ok");
                         }
                         else
                         {
-                            response.Write("投票尚未开始");
+                            response.Write("无效的ID");
                         }
                     }
                     else
                     {
-                        response.Write("无效的ID");
+                        response.Write("投票尚未开始");
                     }
                 }
                 else

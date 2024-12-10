@@ -11,10 +11,16 @@ namespace VoteSystem.Views
     /// </summary>
     public class TopListHandler : IHttpHandler
     {
+        /// <summary>
+        /// 用于显示排名列表的元素
+        /// </summary>
         class TopListItem
         {
             private int _index=1;
 
+            /// <summary>
+            /// 序号（排名）
+            /// </summary>
             public int Index
             {
                 get { return _index; }
@@ -23,6 +29,9 @@ namespace VoteSystem.Views
 
             private string _name;
 
+            /// <summary>
+            /// 候选人姓名
+            /// </summary>
             public string Name
             {
                 get { return _name; }
@@ -31,6 +40,9 @@ namespace VoteSystem.Views
 
             private double _score = 0;
 
+            /// <summary>
+            /// 候选人成绩
+            /// </summary>
             public double Score
             {
                 get { return _score; }
@@ -39,6 +51,9 @@ namespace VoteSystem.Views
 
             private int voteNum;
 
+            /// <summary>
+            /// 候选人票数
+            /// </summary>
             public int VoteNum
             {
                 get { return voteNum; }
@@ -57,11 +72,15 @@ namespace VoteSystem.Views
                 string param1 = context.Request.Form["param1"];
                 switch (action)
                 {
+                    //获取成绩排名列表
                     case "GetScoreList":
                         if (AppDomain.Candidates != null)
                         {
                             AppDomain.SumResult();
                             var list= AppDomain.Candidates.ToArray().ToList();
+                            //不再需要分事业排名和行政排名，因此重写被注释部分
+
+                            /* 
                             list = list.OrderByDescending(c => c.Score).ToList();
                             int count = list.Count;
                             //var list1 = list.SkipWhile(c => c.IsAdmin==false).ToList();
@@ -95,6 +114,27 @@ namespace VoteSystem.Views
                             }
                             Dictionary<string, List<TopListItem>> dic = new Dictionary<string, List<TopListItem>>();
                             dic.Add("admin", admintoplist);
+                            dic.Add("list", toplist);
+                            */
+
+                            int count = list.Count;
+
+                            List<TopListItem> toplist = new List<TopListItem>();
+
+                            for (int i = 0; i < toplist.Count; i++)
+                            {
+                                toplist.Add(new TopListItem()
+                                {
+                                    Index = i + 1,
+                                    Name = list[i].Name,
+                                    Score = list[i].A_Num,//候选人成绩暂时改为满意票票数，如需求变化再来调整
+                                    VoteNum = list[i].Total_Num
+                                });
+                            }
+
+
+                            Dictionary<string, List<TopListItem>> dic = new Dictionary<string, List<TopListItem>>();
+                            //dic.Add("admin", admintoplist);
                             dic.Add("list", toplist);
 
                             var json = JsonHelper.ObjectToJSON(dic);

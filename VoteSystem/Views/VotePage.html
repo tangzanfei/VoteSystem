@@ -80,8 +80,36 @@
     </script>
     <script>
         $(function () {
+            $("#form").submit(function () {
+                var s = $("#Score").val();
+                var name = document.getElementById("labNamePup").innerHTML;
+                $.ajax({
+                    type: 'POST',
+                    url: 'VotePageHandler.ashx',
+                    data: { Vote: name, Score: s },
+                    success: function (data) {
+                        if (data != "ok") {
+                            alert(data);
+                        }
+                        else {
+                            alert("投票成功");
+                        }
+                        window.location = "Thanks.html";
+
+
+                    }, error: function () {
+
+                    }
+                })
+            })
+        })
+
+    </script>
+
+    <script>
+        $(function () {
             $("#btnGiveUp").click(function () {
-                var s = 0;
+                var s = 0;//弃权直接给个非法值
                 var name = document.getElementById("labNamePup").innerHTML;
                 $.ajax({
                     type: 'POST',
@@ -110,29 +138,34 @@
 <body>
     <div data-role="page">
         <div data-role="header">
-            <h1>竞选人<label id="labName"></label></h1>
-
+            <h1>应询单位<label id="labDepartment"></label></h1>
+            <h1>应询对象<label id="labName"></label></h1>
         </div>
 
         <div data-role="main" class="ui-content">
-            <p>请给出公正公平的评分,范围70-95</p>
+            <!--<p>请给出公正公平的评分,范围70-95</p>
             <form method="post" action="demoform.php">
                 <label for="points">评分:</label>
                 <input type="range" name="points" id="points" value="70" min="70" max="95" onchange="ValueChange();">
             </form>
+            <a href="#pageVote" class="ui-btn ui-corner-all ui-shadow  ui-btn-b">提交投票</a>
+            <a href="#pageGiveUp" class="ui-btn ui-corner-all ui-shadow ui-btn-b">弃权(记0分，不计入有效票总票数)</a>-->
+            <form id="form"method="post" >
+                <fieldset data-role="fieldcontain">
+                    <label for="Score">满意度</label>
+                    <select name="Score" id="Score">
+                        <option value="A">满    意</option>
+                        <option value="B">基本满意</option>
+                        <option value="C">不 满 意</option>
+                    </select>
+                </fieldset>
+                <input  type="submit" data-inline="true" value="投票">
+            </form>
         </div>
 
-        <div data-role="footer" data-role="controlgroup" data-type="horizontal" >
-            <div class="ui-grid-a">
-                <div class="ui-block-a">
-                    <a href="#pageVote" class="ui-btn ui-corner-all ui-shadow ui-icon-edit ui-btn-icon-left ">提交</a>
-                </div>
-                <div class="ui-block-b">
-                    <a href="#pageGiveUp" class="ui-btn ui-corner-all ui-shadow ui-icon-delete ui-btn-icon-left">弃权</a>
-                </div>
-            </div>
-        </div>
     </div>
+
+    <!--投票确认窗口-->
     <div data-role="page" data-dialog="true" id="pageVote">
         <div data-role="header">
             <h1>确认投票？</h1>
@@ -145,6 +178,8 @@
             <a href="#" id="btnVote" class="ui-btn ui-corner-all ui-shadow ui-icon-edit ui-btn-icon-left ">提交</a>
         </div>
     </div>
+
+    <!--弃权确认窗口-->
     <div data-role="page" data-dialog="true" id="pageGiveUp">
         <div data-role="header">
             <h1>确认弃权？</h1>

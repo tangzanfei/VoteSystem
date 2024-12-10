@@ -10,6 +10,26 @@ namespace VoteSystem.Models
     /// </summary>
     public class Voter
     {
+        public enum Ticket
+        {
+            /// <summary>
+            /// 满意票
+            /// </summary>
+            A=1,
+            /// <summary>
+            /// 基本满意票
+            /// </summary>
+            B=2,
+            /// <summary>
+            /// 不满意票
+            /// </summary>
+            C=3,
+            /// <summary>
+            /// 弃权票
+            /// </summary>
+            GiveUp=-1
+        }
+
         /// <summary>
         /// 匿名识别码
         /// </summary>
@@ -18,19 +38,15 @@ namespace VoteSystem.Models
         /// <summary>
         /// 本次投票分数
         /// </summary>
-        public int Score { get; set; }
+        public Ticket Score { get; set; }
 
-        /// <summary>
-        /// 是否是VIP
-        /// </summary>
-        public bool IsVip { get; set; }
 
-        private Dictionary<string, int> scoreList = new Dictionary<string, int>();
+        private Dictionary<string, Ticket> scoreList = new Dictionary<string, Ticket>();
 
         /// <summary>
         /// 投票列表
         /// </summary>
-        public Dictionary<string,int> ScoreList
+        public Dictionary<string, Ticket> ScoreList
         {
             get { return scoreList; }
             set { scoreList = value; }

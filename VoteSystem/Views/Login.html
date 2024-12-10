@@ -10,7 +10,7 @@
         $(function () {
             $("#login").click(function () {
                 var s = $("#ID").val();
-                save()
+                //save()
                 $.ajax({
                     type: 'POST',
                     url: 'LoginHandler.ashx',
@@ -18,11 +18,11 @@
                     success: function (data) {
                         switch (data) {
                             case "ok": {
-                                window.location = "VoteListPage1.html";
+                                window.location = "VotePage.html";
                                 break;
                             }
                             case "admin": {
-                                window.location = "AdminPage.html";
+                                window.location = "Admin.html";
                                 break;
                             }
                             default: {
@@ -45,6 +45,13 @@
                 //$("#pass").append("<input id='password' type='password' class='txt2'/>");
                 //$("#password").val($.cookie("password"));
             }
+
+            // 获取传递的编号
+            var id = getUrlParam("id");
+            if (id) {
+                $("#ID").val(id);
+
+            }
         });
 
 
@@ -62,11 +69,28 @@
                 //$.cookie("password", "", { expires: -1 });
             }
         };
+
+
+
+
+
+        // 从url中获取参数，使用正则表达式
+        function getUrlParam(name) {
+            //构造一个含有目标参数的正则表达式对象
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            //匹配目标参数
+            var r = window.location.search.substr(1).match(reg);
+            //返回参数
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
     </script>
     <style>
         img {
-            background-size: contain|cover;
-            width: 40%;
+            
+            width: 30%;
             height: auto;
         }
     </style>
@@ -74,18 +98,24 @@
 <body>
     <div data-role="page">
         <div data-role="header">
-            <h1>桂阳财政局匿名投票系统</h1>
+            <h1>专题询问满意度测评</h1>
         </div>
         <div data-role="main" class="ui-content">
-            <div align="center">
-                <img src="../Images/财政.jpg" />
+            <div>
+                <h3>  </h3>
             </div>
-            <div><h3 align="center">桂阳财政匿名投票系统</h3></div>
+
+            <div align="center" width="10" height="10" >
+                <img src="../Images/logo.png" />
+            </div>
+            <div><h3 align="center">桂阳县行政审批和许可提速工作</h3></div>
+            <div><h3 align="center">专题询问满意度测评</h3></div>
+
             <form method="post">
                 <label for="ID">评委授权码：</label>
                 <input type="text" name="ID" id="ID">
                 <!--<label for="ck_rmbUser">记住我</label>
-    <input type="checkbox" name="favcolor" id="ck_rmbUser" value="false">-->
+        <input type="checkbox" name="favcolor" id="ck_rmbUser" value="false">-->
                 <a href="#" id="login" class="ui-btn ui-btn-b">登  录</a>
 
             </form>

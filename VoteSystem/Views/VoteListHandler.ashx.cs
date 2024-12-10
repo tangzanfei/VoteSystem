@@ -21,7 +21,7 @@ namespace VoteSystem.Views
             {
                 var name = request.Form["Name[]"];
                 var score = request.Form["Score[]"];
-                int i = 0;
+                //int i = 0;
                 //List<int> a = new List<int> { 1, 2, 3 };
                 //int[] b = { 1, 2, 3 };
                 //string astr= JsonHelper.ObjectToJSON(b);
@@ -78,7 +78,7 @@ namespace VoteSystem.Views
                 vote.ScoreList.Clear();
                 for (int i = 0; i < name.Length; i++)
                 {
-                    vote.ScoreList.Add(name[i], score[i]);
+                    vote.ScoreList.Add(name[i], (Voter.Ticket)score[i]);
                 }
             }
 

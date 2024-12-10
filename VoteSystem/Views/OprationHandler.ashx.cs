@@ -26,7 +26,7 @@ namespace VoteSystem.Views
                         context.Response.Write("马云");
                         break;
                     case "GetCurrentCandidate":
-                        context.Response.Write(JsonHelper.ObjectToJSON(new Candidate() { Name = "马云", Score = 85.32 }));
+                        //context.Response.Write(JsonHelper.ObjectToJSON(new Candidate() { Name = "马云", Score = 85.32 }));
                         break;
                     default:
                         break;

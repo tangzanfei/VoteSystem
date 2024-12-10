@@ -43,15 +43,24 @@ namespace VoteSystem.Models
                 List<Voter> list = new List<Voter>();
                 using (StreamReader sr = new StreamReader(HttpRuntime.AppDomainAppPath + "\\Lib\\" + "DataC.txt"))
                 {
+                    int i = 0;
                     while ((line = sr.ReadLine()) != null)
                     {
                         if (line != "")
                         {
                             Voter c = new Voter();
                             c.ID = line;
-                            c.IsVip = false;
-                            c.Score = 0;
+                            //if (i<20)//给定20个领导账号
+                            //{
+                            //    c.IsVip = true;
+                            //}
+                            //else
+                            //{
+                            //    c.IsVip = false;
+                            //}
+                            c.Score = Voter.Ticket.GiveUp;
                             list.Add(c);
+                            i++;
                         }
                     }
                 }
@@ -72,12 +81,12 @@ namespace VoteSystem.Models
         /// <summary>
         /// 从文件加载候选人数据
         /// </summary>
-        public static void LoadCandidates()
+        public static bool LoadCandidates()
         {
             try
             {
-                //AppDomain.Candidates.Clear();
-                // 从文件中读取行政编制候选人
+                AppDomain.Candidates.Clear();
+                // 从文件中读取候选人
                 string line = "";
                 //Environment.CurrentDirectory
                 using (StreamReader sr = new StreamReader(HttpRuntime.AppDomainAppPath+"\\Lib\\"+"DataA.txt"))
@@ -87,32 +96,21 @@ namespace VoteSystem.Models
                         if (line!="")
                         {
                             Candidate c = new Candidate();
-                            c.Name = line;
-                            c.IsAdmin = true;
+                            //DataA中按每行一个候选人，“姓名+空格+单位”格式存储
+                            var subStr = line.Split(' ');
+                            c.Name = subStr[0];
+                            c.Department = subStr[1];
                             AppDomain.Candidates.Add(c);
 
                         }
                     }
                 }
-                //从文件中读取事业编制候选人
-                using (StreamReader sr = new StreamReader(HttpRuntime.AppDomainAppPath + "\\Lib\\" + "DataB.txt"))
-                {
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        if (line != "")
-                        {
-                            Candidate c = new Candidate();
-                            c.Name = line;
-                            c.IsAdmin = false;
-                            AppDomain.Candidates.Add(c);
-                        }
-                    }
-                }
-
+                return true;
             }
             catch (Exception e)
             {
                 WriteLog(e);
+                return false;
             }
 
         }
@@ -124,31 +122,19 @@ namespace VoteSystem.Models
         {
             try
             {
-                using (StreamWriter sw = new StreamWriter(HttpRuntime.AppDomainAppPath + "ResultA.txt"))
+                using (StreamWriter sw = new StreamWriter(HttpRuntime.AppDomainAppPath + "ResultA.txt",false,System.Text.Encoding.GetEncoding("gb2312")))
                 {
                     int index = 1;
                     foreach (var cand in AppDomain.Candidates)
                     {
-                        if (cand.IsAdmin)
-                        {
-                            sw.WriteLine("名次：{0},{1},分数：{2},票数：{3}", index, cand.Name, cand.Score, cand.VoteNum);
-                            index++;
-                        }
+                        //sw.WriteLine("名次：{0},{1},总分数：{2},有效票数：{3},弃权票数：{8},领导总分：{4},领导票数：{5},一般干部总分：{6},一般干部票数{7}",
+                        //    index, cand.Name, cand.Score, cand.VoteNum,cand.VipScore,cand.VipNum,cand.NomScore,cand.NomNum,cand.GiveUpNum);
+                        sw.WriteLine("序号：{0},姓名：{1},得票总数：{2},满意票数：{3},满意度：{4},基本满意票数：{5},基本满意度：{6},不满意票数：{7},不满意度：{8},",
+                                          index, cand.Name, cand.Total_Num,  cand.A_Num,    cand.A_Ratio, cand.B_Num,     cand.B_Ratio,    cand.C_Num, cand.C_Ratio);
+                        index++;
                     }
                 }
-                using (StreamWriter sw = new StreamWriter(HttpRuntime.AppDomainAppPath + "ResultB.txt"))
-                {
-                    int index = 1;
-                    foreach (var cand in AppDomain.Candidates)
-                    {
-                        if (!cand.IsAdmin)
-                        {
-                            sw.WriteLine("名次：{0},{1},分数：{2},票数：{3}", index, cand.Name, cand.Score, cand.VoteNum);
-                            index++;
-                        }
-                    }
-                }
-                using (StreamWriter sw = new StreamWriter(HttpRuntime.AppDomainAppPath + "Detail.txt"))
+                using (StreamWriter sw = new StreamWriter(HttpRuntime.AppDomainAppPath + "Detail.txt",false,System.Text.Encoding.GetEncoding("gb2312")))
                 {
                     int index = 1;
                     sw.WriteLine("投票明细数据：");

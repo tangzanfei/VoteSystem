@@ -104,33 +104,23 @@ namespace VoteSystem
         }
 
         /// <summary>
-        /// 汇总计算投票结果并排序
+        /// 汇总计算投票结果
         /// </summary>
         public static void SumResult()
         {
             int num = Voters.Count;
             foreach (var cand in Candidates)
             {
-                cand.Score = 0;
-                cand.VoteNum = 0;
-                
-                for (int i = 0; i < num; i++)
-                {
-                    if (Voters[i].ScoreList.ContainsKey(cand.Name))
-                    {
-                        cand.Score += Voters[i].ScoreList[cand.Name];
-                        cand.VoteNum++;
-                    }
-                }
+                bool result = cand.SumResult();
             }
-            Candidates.Sort((x, y) => y.Score.CompareTo(x.Score));
+            //Candidates.Sort((x, y) => y.Score.CompareTo(x.Score));//测评不需要排序
         }
 
         /// <summary>
         /// 用于生成授权码，有授权码的情况下不需要使用
         /// </summary>
-        /// <param name="num"></param>
-        /// <returns></returns>
+        /// <param name="num">需要生成的授权码个数</param>
+        /// <returns>生成的随机码</returns>
         public static List<string> CreateIdList(int num)
         {
             Random ran = new Random();
@@ -144,10 +134,10 @@ namespace VoteSystem
             list.Sort();
             list = list.Distinct().ToList();
 
-            if (list.Count<num)
+            while (list.Count<num)
             {
-                //有重复项被删除时，补充，因为此次num不到200，在一百万中取一百个随机数重复概率极小，因此仅重复补充一次就可
-#warning 后续若num增加则可能导致生成的数量不够的bug，需要做修改优化
+                //有重复项被删除时，补满到指定的个数，因为此次num不到200，在一百万中取一百个随机数重复概率极小，因此仅重复补充一次就可
+
                 var uuid = ran.Next(999999);
                 list.Add(uuid.ToString("D6"));
                 list.Sort();
