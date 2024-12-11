@@ -96,10 +96,8 @@ namespace VoteSystem.Models
                         if (line!="")
                         {
                             Candidate c = new Candidate();
-                            //DataA中按每行一个候选人，“姓名+空格+单位”格式存储
-                            var subStr = line.Split(' ');
-                            c.Name = subStr[0];
-                            c.Department = subStr[1];
+
+                            c.Name = line;
                             AppDomain.Candidates.Add(c);
 
                         }
@@ -129,7 +127,7 @@ namespace VoteSystem.Models
                     {
                         //sw.WriteLine("名次：{0},{1},总分数：{2},有效票数：{3},弃权票数：{8},领导总分：{4},领导票数：{5},一般干部总分：{6},一般干部票数{7}",
                         //    index, cand.Name, cand.Score, cand.VoteNum,cand.VipScore,cand.VipNum,cand.NomScore,cand.NomNum,cand.GiveUpNum);
-                        sw.WriteLine("序号：{0},姓名：{1},得票总数：{2},满意票数：{3},满意度：{4},基本满意票数：{5},基本满意度：{6},不满意票数：{7},不满意度：{8},",
+                        sw.WriteLine("序号：{0},单位：{1},得票总数：{2},满意票数：{3},满意度：{4},基本满意票数：{5},基本满意度：{6},不满意票数：{7},不满意度：{8},",
                                           index, cand.Name, cand.Total_Num,  cand.A_Num,    cand.A_Ratio, cand.B_Num,     cand.B_Ratio,    cand.C_Num, cand.C_Ratio);
                         index++;
                     }

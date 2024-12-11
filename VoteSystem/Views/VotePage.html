@@ -15,9 +15,7 @@
                     data: '',
                     success: function (data) {
                         if (data != null) {
-
                             document.getElementById("labName").innerHTML = data;
-                            document.getElementById("labNamePup").innerHTML = data;
                         }
                     }, error: function () {
 
@@ -45,17 +43,17 @@
         //    xmlhttp.open("GET", "GetNameHandler.ashx");
         //    xmlhttp.send();
         //}
-    </script>
-    <script>
+
+        //直接滑动条打分方式时的写法，已经弃用
         function ValueChange() {
             document.getElementById("labVotePup").innerText = document.getElementById("points").value;
         }
-    </script>
-    <script>
+
+        //直接滑动条打分方式时的写法，已经弃用
         $(function () {
             $("#btnVote").click(function () {
                 var s = $("#points").val();
-                var name = document.getElementById("labNamePup").innerHTML;
+                var name = document.getElementById("labName").innerHTML;
                 $.ajax({
                     type: 'POST',
                     url: 'VotePageHandler.ashx',
@@ -77,12 +75,11 @@
             })
         })
 
-    </script>
-    <script>
+        //下拉框选表单提交时的方法，已弃用
         $(function () {
             $("#form").submit(function () {
                 var s = $("#Score").val();
-                var name = document.getElementById("labNamePup").innerHTML;
+                var name = document.getElementById("labName").innerHTML;
                 $.ajax({
                     type: 'POST',
                     url: 'VotePageHandler.ashx',
@@ -104,13 +101,11 @@
             })
         })
 
-    </script>
-
-    <script>
+        //弃权时，提交0分，已弃用
         $(function () {
             $("#btnGiveUp").click(function () {
                 var s = 0;//弃权直接给个非法值
-                var name = document.getElementById("labNamePup").innerHTML;
+                var name = document.getElementById("labName").innerHTML;
                 $.ajax({
                     type: 'POST',
                     url: 'VotePageHandler.ashx',
@@ -132,35 +127,114 @@
             })
         })
 
+        function VoteA() {
+            var name = document.getElementById("labName").innerHTML;
+            $.ajax({
+                type: 'POST',
+                url: 'VotePageHandler.ashx',
+                data: { Vote: name, Score: "A" },
+                success: function (data) {
+                    if (data != "ok") {
+                        alert(data);
+                    }
+                    else {
+                        alert("投票成功");
+                    }
+                    window.location = "Thanks.html";
+                }, error: function () {
+
+                }
+            })
+        }
+        function VoteB() {
+            var name = document.getElementById("labName").innerHTML;
+            $.ajax({
+                type: 'POST',
+                url: 'VotePageHandler.ashx',
+                data: { Vote: name, Score: "B" },
+                success: function (data) {
+                    if (data != "ok") {
+                        alert(data);
+                    }
+                    else {
+                        alert("投票成功");
+                    }
+                    window.location = "Thanks.html";
+                }, error: function () {
+
+                }
+            })
+        }
+        function VoteC() {
+            var name = document.getElementById("labName").innerHTML;
+            $.ajax({
+                type: 'POST',
+                url: 'VotePageHandler.ashx',
+                data: { Vote: name, Score: "C" },
+                success: function (data) {
+                    if (data != "ok") {
+                        alert(data);
+                    }
+                    else {
+                        alert("投票成功");
+                    }
+                    window.location = "Thanks.html";
+                }, error: function () {
+
+                }
+            })
+        }
     </script>
 
 </head>
 <body>
     <div data-role="page">
         <div data-role="header">
-            <h1>应询单位<label id="labDepartment"></label></h1>
-            <h1>应询对象<label id="labName"></label></h1>
+            <h1>请测评</h1>
         </div>
 
         <div data-role="main" class="ui-content">
+            <h1></h1>
+            <div style="display: flex;justify-content: center;">
+                <div class="ui-block-b" style="font-size:120%"><span>当前单位： </span></div>
+                <div class="ui-block-b" style="font-size:120%"><span id="labName"></span></div>
+            </div>
+            <h1></h1>
+            <!--滑块打分，已弃用-->
             <!--<p>请给出公正公平的评分,范围70-95</p>
-            <form method="post" action="demoform.php">
-                <label for="points">评分:</label>
-                <input type="range" name="points" id="points" value="70" min="70" max="95" onchange="ValueChange();">
-            </form>
-            <a href="#pageVote" class="ui-btn ui-corner-all ui-shadow  ui-btn-b">提交投票</a>
-            <a href="#pageGiveUp" class="ui-btn ui-corner-all ui-shadow ui-btn-b">弃权(记0分，不计入有效票总票数)</a>-->
-            <form id="form"method="post" >
-                <fieldset data-role="fieldcontain">
-                    <label for="Score">满意度</label>
-                    <select name="Score" id="Score">
-                        <option value="A">满    意</option>
-                        <option value="B">基本满意</option>
-                        <option value="C">不 满 意</option>
-                    </select>
-                </fieldset>
-                <input  type="submit" data-inline="true" value="投票">
-            </form>
+    <form method="post" action="demoform.php">
+        <label for="points">评分:</label>
+        <input type="range" name="points" id="points" value="70" min="70" max="95" onchange="ValueChange();">
+    </form>
+    <a href="#pageVote" class="ui-btn ui-corner-all ui-shadow  ui-btn-b">提交投票</a>
+    <a href="#pageGiveUp" class="ui-btn ui-corner-all ui-shadow ui-btn-b">弃权(记0分，不计入有效票总票数)</a>-->
+            <!--下拉框选表单，已弃用-->
+            <!--<form id="form"method="post" >
+        <fieldset data-role="fieldcontain">
+            <label for="Score">满意度</label>
+            <select name="Score" id="Score">
+                <option value="A">满    意</option>
+                <option value="B">基本满意</option>
+                <option value="C">不 满 意</option>
+            </select>
+        </fieldset>
+        <input  type="submit" data-inline="true" value="投票">
+    </form>-->
+            <button class="ui-btn ui-btn-b" style="height:60px" onclick="VoteA();">满    意</button>
+            <p style="height:10px"></p>
+
+            <button class="ui-btn ui-btn-b" style="height:60px" onclick="VoteB();">基本满意</button>
+
+            <p style="height:20px"></p>
+
+
+            <button class="ui-btn ui-btn-b" style="height:60px" onclick="VoteC();">不 满 意</button>
+            <h1></h1>
+            <div style="display: flex;justify-content: center;">
+                <div class="ui-block-b" style="font-size:100%"><span>您对同一单位的测评提交后无法修改，请谨慎思考，公正客观地评价</span></div>
+
+            </div>
+
         </div>
 
     </div>

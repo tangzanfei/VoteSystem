@@ -30,6 +30,7 @@ namespace VoteSystem.Views
                         //    var json = JsonHelper.ObjectToJSON(AppDomain.Candidates);
                         //    context.Response.Write(json);
                         //}
+                        //要考虑异常时的情况，增加导出失败的提示。
                         context.Response.Write("结果导出成功");
 
                         break;
@@ -57,7 +58,7 @@ namespace VoteSystem.Views
                         if(AppDomain.IsInited)
                         {
                             //如果已初始过，不执行
-                            context.Response.Write("系统初始化完成");
+                            context.Response.Write("系统初始化已完成");
                         }
                         else
                         {
@@ -89,7 +90,7 @@ namespace VoteSystem.Views
                         if (c != null)
                         {
                             AppDomain.CurrentCandidate = c;
-                            context.Response.Write(string.Format("开始候选人" + AppDomain.CurrentCandidate.Name + "的投票"));
+                            context.Response.Write(string.Format("开始对" + AppDomain.CurrentCandidate.Name + "的投票"));
                         }
                         break;
                     default:
@@ -123,7 +124,7 @@ namespace VoteSystem.Views
                 {
                     FileHelper.LoadIDList();
                     ////加载账号失败，则重新生成账号
-                    //var list = AppDomain.CreateIdList(120);
+                    //var list = AppDomain.CreateIdList(60);
                     //FileHelper.SaveIDList(list);
                     //FileHelper.LoadIDList();
                 }

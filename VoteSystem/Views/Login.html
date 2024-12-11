@@ -37,6 +37,12 @@
         })
 
         $(document).ready(function () {
+            // 获取传递的编号
+            var id = getUrlParam("id");
+            if (id) {
+                $("#ID").val(id);
+            }
+
             var rem = $.cookie('rmbUser');
             if (rem == "true") {
                 $("#ck_rmbUser").prop("checked", true).checkboxradio("refresh");;
@@ -46,12 +52,6 @@
                 //$("#password").val($.cookie("password"));
             }
 
-            // 获取传递的编号
-            var id = getUrlParam("id");
-            if (id) {
-                $("#ID").val(id);
-
-            }
         });
 
 

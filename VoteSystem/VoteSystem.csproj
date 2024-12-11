@@ -128,13 +128,13 @@
     <Content Include="Views\LoginHandler.ashx" />
     <Content Include="Views\VotePageHandler.ashx" />
     <Content Include="Views\GetNameHandler.ashx" />
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Views\AdminHandler.ashx" />
     <Content Include="Views\OprationHandler.ashx" />
     <Content Include="Views\TopListHandler.ashx" />
     <Content Include="Views\AdminPageHandler.ashx" />
     <Content Include="Views\VoteListHandler.ashx" />
     <Content Include="Views\LoadCandidateHandler.ashx" />
+    <None Include="Properties\PublishProfiles\RenDaVoteSystem.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

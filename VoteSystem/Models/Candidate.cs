@@ -18,7 +18,7 @@ namespace VoteSystem.Models
         /// <summary>
         /// 候选人部门
         /// </summary>
-        public string Department { get; set; }
+        //public string Department { get; set; }
 
 
         private int giveUpNum = 0;
