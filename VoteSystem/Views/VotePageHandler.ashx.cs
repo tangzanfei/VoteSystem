@@ -29,8 +29,7 @@ namespace VoteSystem.Views
 
                 }
 
-                int score_int;
-                int.TryParse(score, out score_int);
+
 
                 //var ticket = (Models.Voter.Ticket)score;
                 Models.Voter.Ticket ticket = Models.Voter.Ticket.GiveUp;

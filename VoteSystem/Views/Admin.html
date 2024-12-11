@@ -133,7 +133,7 @@
                     if (data != null) {
                         alert(data);
                     }
-                    document.getElementById("pageVote").hidden;
+                    //document.getElementById("pageVote").hidden;
 
                     this.needStop = false;
                     StartTimer();
@@ -177,6 +177,25 @@
             })
         }
 
+        function StopVote() {
+            $.ajax({
+                type: 'post',
+                url: 'AdminHandler.ashx',
+                contentType: "application/x-www-form-urlencoded;charset=utf-8;",
+                data: { action: "StopVote", param1: "" },
+                dataType: "text",
+                success: function (data) {
+                    if (data != null) {
+                        alert(data);
+
+                        needStop = true;
+                    }
+
+                }, error: function (error) {
+                    alert("error=" + error);
+                }
+            })
+        }
 
         function TopList() {
             window.location = "TopList.html";
@@ -203,9 +222,9 @@
         }
 
 
-        function OnNext() {
-            document.getElementById("labNamePup").innerHTML = $("#CandidateName").val();
-        }
+        //function OnNext() {
+        //    document.getElementById("labNamePup").innerHTML = $("#CandidateName").val();
+        //}
     </script>
 </head>
 <body>
@@ -233,12 +252,12 @@
         </div>
 
         <div data-role="main" class="ui-content">
-            <div style="font-weight: bold;font-size:150%">本轮投票详情：</div>
+            <div style="font-weight: bold;font-size:150%">本轮测评详情：</div>
             <div class="ui-grid-a">
                 <div class="ui-block-a" style="border:1px solid black; font-size:150%"><span>应询单位</span></div>
                 <div class="ui-block-b" style="border:1px solid black; font-size:150%"><span id="spanName">无</span></div>
                 <!--<div class="ui-block-a" style="border:1px solid black; font-size:150%"><span>应询对象</span></div>
-                <div class="ui-block-b" style="border:1px solid black; font-size:150%"><span id="spanName">无</span></div>-->
+        <div class="ui-block-b" style="border:1px solid black; font-size:150%"><span id="spanName">无</span></div>-->
                 <div class="ui-block-a" style="border:1px solid black; font-size:150%"><span>已投票数</span></div>
                 <div class="ui-block-b" style="border:1px solid black; font-size:150%"><span id="spanSum">0</span></div>
                 <div>
@@ -258,33 +277,35 @@
                 <div class="ui-block-a" style="border:1px solid black;font-size:150%"><span>不满意票占比</span></div>
                 <div class="ui-block-b" style="border:1px solid black;font-size:150%"><span id="spanC_Ratio">0</span></div>
             </div>
-            <button class="ui-btn ui-btn-b" onclick="Refresh();">刷新</button>
-            <button class="ui-btn ui-btn-b" onclick="ReStart();">重启系统</button>
-            <button class="ui-btn ui-btn-b" onclick="ExportData();">导出数据</button>
-        </div>
 
-        <div data-role="controlgroup">
-            <div class="ui-grid-a">
-                <div class="ui-block-a">
-                    <form method="post" action="demoform.html">
-                        <fieldset class="ui-field-contain">
-                            <label for="CandidateName" style="font-weight:bolder">应询对象</label>
-                            <select name="CandidateName" id="CandidateName">
-                                <!--<option value="马云">马云</option>
-                                <option value="刘德华">刘德华</option>
-                                <option value="姚明">姚明</option>-->
-                            </select>
-                        </fieldset>
-                    </form>
-                    <a href="#pageVote" class="ui-btn ui-corner-all ui-shadow ui-btn-b " onclick="OnNext();">开始下一候选人投票</a>
-                </div>
-                <div class="ui-block-b">
-                </div>
+            <button class="button ui-btn ui-btn-b"  onclick="Refresh();">刷新</button>
+            <button class="button ui-btn ui-btn-b"  onclick="ReStart();">重启系统</button>
+            <button class="button ui-btn ui-btn-b"  onclick="StopVote();">停止本轮测评</button>
+            <button class="button ui-btn ui-btn-b"  onclick="ExportData();">导出数据</button>
 
+
+            <div data-role="controlgroup">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <form method="post" action="demoform.html">
+                            <fieldset class="ui-field-contain">
+                                <label for="CandidateName" style="font-weight:bolder">测评对象</label>
+                                <select name="CandidateName" id="CandidateName">
+                                    <!--<option value="马云">马云</option>
+                            <option value="刘德华">刘德华</option>
+                            <option value="姚明">姚明</option>-->
+                                </select>
+                            </fieldset>
+                        </form>
+                        <a href="#pageVote" class="ui-btn ui-corner-all ui-shadow ui-btn-b " onclick="SetNextCandidate();">开始测评</a>
+                    </div>
+                    <div class="ui-block-b">
+                    </div>
+
+                </div>
             </div>
         </div>
-    </div>
-    <div data-role="page" data-dialog="true" id="pageVote">
+    <!--<div data-role="page" data-dialog="true" id="pageVote">
         <div data-role="header">
             <h1>确认下一轮投票？</h1>
         </div>
@@ -294,6 +315,6 @@
         <div data-role="footer">
             <a href="#" id="btnVote" class="ui-btn ui-corner-all ui-shadow " onclick="SetNextCandidate();">确认开始</a>
         </div>
-    </div>
+    </div>-->
 </body>
 </html>

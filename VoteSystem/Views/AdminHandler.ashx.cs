@@ -72,7 +72,7 @@ namespace VoteSystem.Views
                         break;
                     case "GetCurrentCandidate":
                         //刷新得票情况
-                         if (AppDomain.CurrentCandidate != null)
+                        if (AppDomain.CurrentCandidate != null)
                         {
                             AppDomain.CurrentCandidate.SumResult();
                             var json = JsonHelper.ObjectToJSON(AppDomain.CurrentCandidate);
@@ -91,6 +91,28 @@ namespace VoteSystem.Views
                         {
                             AppDomain.CurrentCandidate = c;
                             context.Response.Write(string.Format("开始对" + AppDomain.CurrentCandidate.Name + "的投票"));
+                        }
+                        break;
+                    case "StopVote":
+                        if (AppDomain.IsInited)
+                        {
+                            //如果已初始过
+                            //context.Response.Write("系统初始化已完成");
+                            if (AppDomain.CurrentCandidate != null)
+                            {
+                                AppDomain.CurrentCandidate = null;
+                                context.Response.Write("本轮停止");
+                            }
+                            else
+                            {
+                                //本来就已停止
+                                context.Response.Write("已停止");
+                            }
+                        }
+                        else
+                        {
+                            //未初始化
+                            context.Response.Write("系统还未初始化");
                         }
                         break;
                     default:
