@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2048
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoteSystem", "VoteSystem\VoteSystem.csproj", "{D091D6D1-8D43-4036-AA16-5884E68633FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "人大多轮投票", "VoteSystem\人大多轮投票.csproj", "{D091D6D1-8D43-4036-AA16-5884E68633FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
